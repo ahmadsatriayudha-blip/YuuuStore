@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Yuu Store — Minecraft Shop</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet"/>
-  <!-- EmailJS -->
   <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <style>
     :root {
@@ -30,8 +29,6 @@
       overflow-x: hidden;
       min-height: 100vh;
     }
-
-    /* ── GRID BACKGROUND ── */
     body::before {
       content: '';
       position: fixed; inset: 0;
@@ -54,25 +51,21 @@
     }
     .nav-logo {
       font-family: 'Orbitron', monospace;
-      font-size: 1.4rem;
-      font-weight: 900;
-      letter-spacing: 0.15em;
+      font-size: 1.4rem; font-weight: 900; letter-spacing: 0.15em;
       background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+      cursor: pointer;
     }
     .nav-links { display: flex; gap: 32px; }
     .nav-links a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.85rem;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      transition: color 0.2s;
+      color: var(--muted); text-decoration: none; font-size: 0.85rem;
+      font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--accent); }
+
+    /* ── PAGES ── */
+    .page { display: none; }
+    .page.active { display: block; }
 
     /* ── HERO ── */
     .hero {
@@ -80,387 +73,229 @@
       min-height: 100vh;
       display: flex; flex-direction: column;
       align-items: center; justify-content: center;
-      text-align: center;
-      padding: 80px 20px 60px;
-      overflow: hidden;
+      text-align: center; padding: 80px 20px 60px; overflow: hidden;
     }
     .hero-glow {
-      position: absolute;
-      width: 600px; height: 600px;
-      border-radius: 50%;
+      position: absolute; width: 600px; height: 600px; border-radius: 50%;
       background: radial-gradient(circle, rgba(0,212,255,0.08) 0%, transparent 70%);
-      top: 50%; left: 50%; transform: translate(-50%, -50%);
-      pointer-events: none;
+      top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none;
     }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 8px;
-      background: rgba(0,212,255,0.08);
-      border: 1px solid rgba(0,212,255,0.2);
-      border-radius: 50px;
-      padding: 6px 18px;
-      font-size: 0.72rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 28px;
+      background: rgba(0,212,255,0.08); border: 1px solid rgba(0,212,255,0.2);
+      border-radius: 50px; padding: 6px 18px; font-size: 0.72rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 28px;
       animation: fadeUp 0.6s ease forwards;
     }
     .hero-badge::before {
-      content: '';
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent2);
-      animation: pulse 2s ease infinite;
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent2); animation: pulse 2s ease infinite;
     }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
     .hero h1 {
-      font-family: 'Orbitron', monospace;
-      font-size: clamp(3rem, 8vw, 6rem);
-      font-weight: 900;
-      letter-spacing: 0.08em;
-      line-height: 1;
-      margin-bottom: 16px;
+      font-family: 'Orbitron', monospace; font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 900; letter-spacing: 0.08em; line-height: 1; margin-bottom: 16px;
       animation: fadeUp 0.6s ease 0.1s both;
     }
     .hero h1 span {
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
     .hero p {
-      font-size: 1.1rem;
-      color: var(--muted);
-      max-width: 480px;
-      line-height: 1.7;
-      margin-bottom: 40px;
-      animation: fadeUp 0.6s ease 0.2s both;
+      font-size: 1.1rem; color: var(--muted); max-width: 480px;
+      line-height: 1.7; margin-bottom: 40px; animation: fadeUp 0.6s ease 0.2s both;
     }
     .hero-cta {
       display: inline-flex; align-items: center; gap: 10px;
       background: linear-gradient(135deg, var(--accent), var(--accent2));
-      color: #000;
-      padding: 14px 36px;
-      border-radius: 6px;
-      font-family: 'Orbitron', monospace;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-decoration: none;
-      text-transform: uppercase;
-      box-shadow: 0 0 30px rgba(0,212,255,0.3);
-      transition: transform 0.2s, box-shadow 0.2s;
-      animation: fadeUp 0.6s ease 0.3s both;
+      color: #000; padding: 14px 36px; border-radius: 6px;
+      font-family: 'Orbitron', monospace; font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.1em; text-decoration: none; text-transform: uppercase;
+      box-shadow: 0 0 30px rgba(0,212,255,0.3); transition: transform 0.2s, box-shadow 0.2s;
+      animation: fadeUp 0.6s ease 0.3s both; cursor: pointer; border: none;
     }
     .hero-cta:hover { transform: translateY(-2px); box-shadow: 0 0 50px rgba(0,212,255,0.5); }
-
-    /* Stats */
-    .hero-stats {
-      display: flex; gap: 48px; margin-top: 64px;
-      animation: fadeUp 0.6s ease 0.4s both;
-    }
+    .hero-stats { display: flex; gap: 48px; margin-top: 64px; animation: fadeUp 0.6s ease 0.4s both; }
     .stat { text-align: center; }
-    .stat-num {
-      font-family: 'Orbitron', monospace;
-      font-size: 1.8rem;
-      font-weight: 900;
-      color: var(--accent);
-    }
+    .stat-num { font-family: 'Orbitron', monospace; font-size: 1.8rem; font-weight: 900; color: var(--accent); }
     .stat-label { font-size: 0.75rem; color: var(--muted); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
 
     /* ── SECTION ── */
     section { position: relative; z-index: 1; padding: 80px 40px; max-width: 1100px; margin: 0 auto; }
-    .section-label {
-      font-family: 'Orbitron', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 12px;
-    }
-    .section-title {
-      font-family: 'Orbitron', monospace;
-      font-size: clamp(1.5rem, 4vw, 2.2rem);
-      font-weight: 700;
-      margin-bottom: 48px;
-    }
+    .section-label { font-family: 'Orbitron', monospace; font-size: 0.65rem; letter-spacing: 0.3em; color: var(--accent); text-transform: uppercase; margin-bottom: 12px; }
+    .section-title { font-family: 'Orbitron', monospace; font-size: clamp(1.5rem, 4vw, 2.2rem); font-weight: 700; margin-bottom: 48px; }
 
     /* ── PRODUCTS ── */
-    .products-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 24px;
-    }
+    .products-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; }
     .product-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s;
-      position: relative;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 12px;
+      overflow: hidden; transition: transform 0.3s, border-color 0.3s, box-shadow 0.3s; position: relative;
     }
-    .product-card:hover {
-      transform: translateY(-4px);
-      border-color: var(--accent);
-      box-shadow: 0 0 30px rgba(0,212,255,0.1);
-    }
-    .product-card.featured {
-      border-color: var(--gold);
-      box-shadow: 0 0 20px rgba(255,215,0,0.1);
-    }
-    .product-card.featured:hover {
-      box-shadow: 0 0 40px rgba(255,215,0,0.2);
-    }
+    .product-card:hover { transform: translateY(-4px); border-color: var(--accent); box-shadow: 0 0 30px rgba(0,212,255,0.1); }
+    .product-card.featured { border-color: var(--gold); box-shadow: 0 0 20px rgba(255,215,0,0.1); }
+    .product-card.featured:hover { box-shadow: 0 0 40px rgba(255,215,0,0.2); }
     .product-badge {
       position: absolute; top: 16px; right: 16px;
-      background: var(--gold);
-      color: #000;
-      font-size: 0.65rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 4px;
+      background: var(--gold); color: #000; font-size: 0.65rem;
+      font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 4px;
     }
-    .product-header {
-      padding: 28px 28px 20px;
-      border-bottom: 1px solid var(--border);
-    }
+    .product-header { padding: 28px 28px 20px; border-bottom: 1px solid var(--border); }
     .product-icon { font-size: 2.5rem; margin-bottom: 12px; }
-    .product-name {
-      font-family: 'Orbitron', monospace;
-      font-size: 1rem;
-      font-weight: 700;
-      letter-spacing: 0.05em;
-      margin-bottom: 8px;
-    }
+    .product-name { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; letter-spacing: 0.05em; margin-bottom: 8px; }
     .product-desc { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
     .product-body { padding: 20px 28px 28px; }
     .product-features { list-style: none; margin-bottom: 24px; }
-    .product-features li {
-      font-size: 0.82rem;
-      color: var(--muted);
-      padding: 6px 0;
-      border-bottom: 1px solid rgba(30,45,61,0.5);
-      display: flex; align-items: center; gap: 8px;
-    }
+    .product-features li { font-size: 0.82rem; color: var(--muted); padding: 6px 0; border-bottom: 1px solid rgba(30,45,61,0.5); display: flex; align-items: center; gap: 8px; }
     .product-features li::before { content: '▸'; color: var(--accent2); font-size: 0.7rem; }
-    .product-price {
-      font-family: 'Orbitron', monospace;
-      font-size: 1.6rem;
-      font-weight: 900;
-      color: var(--accent2);
-      margin-bottom: 16px;
-    }
+    .product-price { font-family: 'Orbitron', monospace; font-size: 1.6rem; font-weight: 900; color: var(--accent2); margin-bottom: 16px; }
     .product-price span { font-size: 0.8rem; color: var(--muted); font-weight: 400; }
     .btn-buy {
-      width: 100%;
-      background: linear-gradient(135deg, var(--accent), #0099cc);
-      color: #000;
-      border: none;
-      padding: 13px;
-      border-radius: 8px;
-      font-family: 'Orbitron', monospace;
-      font-size: 0.8rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 4px 20px rgba(0,212,255,0.25);
+      width: 100%; background: linear-gradient(135deg, var(--accent), #0099cc);
+      color: #000; border: none; padding: 13px; border-radius: 8px;
+      font-family: 'Orbitron', monospace; font-size: 0.8rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+      transition: all 0.2s; box-shadow: 0 4px 20px rgba(0,212,255,0.25);
     }
     .btn-buy:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(0,212,255,0.4); }
-    .btn-buy.gold {
-      background: linear-gradient(135deg, var(--gold), #ffaa00);
-      box-shadow: 0 4px 20px rgba(255,215,0,0.25);
-    }
+    .btn-buy.gold { background: linear-gradient(135deg, var(--gold), #ffaa00); box-shadow: 0 4px 20px rgba(255,215,0,0.25); }
     .btn-buy.gold:hover { box-shadow: 0 8px 30px rgba(255,215,0,0.4); }
 
-    /* ── HOW TO ORDER ── */
+    /* ── STEPS ── */
     .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; }
-    .step {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 28px;
-      text-align: center;
-    }
-    .step-num {
-      font-family: 'Orbitron', monospace;
-      font-size: 2rem;
-      font-weight: 900;
-      color: var(--accent);
-      opacity: 0.3;
-      margin-bottom: 12px;
-    }
+    .step { background: var(--bg2); border: 1px solid var(--border); border-radius: 12px; padding: 28px; text-align: center; }
+    .step-num { font-family: 'Orbitron', monospace; font-size: 2rem; font-weight: 900; color: var(--accent); opacity: 0.3; margin-bottom: 12px; }
     .step-title { font-weight: 600; margin-bottom: 8px; font-size: 0.95rem; }
     .step-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── PAYMENT PAGE ── */
+    .payment-page {
+      position: relative; z-index: 1;
+      min-height: 100vh; padding: 100px 40px 60px;
+      max-width: 700px; margin: 0 auto;
+    }
+    .payment-header { margin-bottom: 40px; }
+    .payment-title { font-family: 'Orbitron', monospace; font-size: clamp(1.8rem, 5vw, 2.5rem); font-weight: 900; margin-bottom: 12px; }
+    .payment-subtitle { color: var(--muted); font-size: 0.95rem; line-height: 1.6; }
+
+    .payment-card {
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+      overflow: hidden; margin-bottom: 24px;
+    }
+    .payment-card-header {
+      padding: 20px 28px; border-bottom: 1px solid var(--border);
+      background: rgba(0,212,255,0.04);
+    }
+    .payment-card-title { font-family: 'Orbitron', monospace; font-size: 0.85rem; font-weight: 700; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; }
+    .payment-card-body { padding: 28px; }
+
+    /* QRIS */
+    .qris-container { text-align: center; }
+    .qris-img {
+      width: 260px; height: 260px; object-fit: contain;
+      border: 2px solid var(--border); border-radius: 12px;
+      background: white; padding: 12px; margin: 0 auto 16px;
+      display: block;
+    }
+    .qris-placeholder {
+      width: 260px; height: 260px;
+      border: 2px dashed var(--border); border-radius: 12px;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      margin: 0 auto 16px; color: var(--muted); font-size: 0.85rem; gap: 8px;
+    }
+    .qris-name { font-family: 'Orbitron', monospace; font-weight: 700; font-size: 1rem; color: var(--fg); margin-bottom: 4px; }
+    .qris-note { font-size: 0.8rem; color: var(--muted); }
+
+    .payment-info {
+      background: rgba(0,255,136,0.06); border: 1px solid rgba(0,255,136,0.15);
+      border-radius: 10px; padding: 16px; margin-top: 20px;
+      font-size: 0.83rem; color: var(--muted); line-height: 1.8;
+    }
+    .payment-info strong { color: var(--accent2); }
+
+    .btn-back {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: var(--bg3); border: 1px solid var(--border);
+      color: var(--fg); padding: 11px 24px; border-radius: 8px;
+      font-family: 'Exo 2', sans-serif; font-size: 0.88rem; font-weight: 600;
+      cursor: pointer; transition: all 0.2s; margin-top: 16px; text-decoration: none;
+    }
+    .btn-back:hover { border-color: var(--accent); color: var(--accent); }
 
     /* ── FOOTER ── */
     footer {
       position: relative; z-index: 1;
-      border-top: 1px solid var(--border);
-      padding: 40px;
-      text-align: center;
-      color: var(--muted);
-      font-size: 0.82rem;
+      border-top: 1px solid var(--border); padding: 40px;
+      text-align: center; color: var(--muted); font-size: 0.82rem;
     }
 
     /* ── MODAL ── */
     .modal-overlay {
-      display: none;
-      position: fixed; inset: 0; z-index: 200;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(8px);
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+      display: none; position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.8); backdrop-filter: blur(8px);
+      align-items: center; justify-content: center; padding: 20px;
     }
     .modal-overlay.open { display: flex; }
     .modal {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      width: 100%;
-      max-width: 600px;
-      max-height: 90vh;
-      overflow-y: auto;
-      position: relative;
-      animation: modalIn 0.3s ease;
+      background: var(--bg2); border: 1px solid var(--border); border-radius: 16px;
+      width: 100%; max-width: 600px; max-height: 90vh; overflow-y: auto;
+      position: relative; animation: modalIn 0.3s ease;
     }
-    @keyframes modalIn {
-      from { opacity: 0; transform: scale(0.95) translateY(10px); }
-      to   { opacity: 1; transform: scale(1) translateY(0); }
-    }
+    @keyframes modalIn { from{opacity:0;transform:scale(0.95) translateY(10px)} to{opacity:1;transform:scale(1) translateY(0)} }
     .modal-header {
-      padding: 28px 28px 20px;
-      border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between;
+      padding: 28px 28px 20px; border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; background: var(--bg2); z-index: 1;
     }
-    .modal-title {
-      font-family: 'Orbitron', monospace;
-      font-size: 1rem;
-      font-weight: 700;
-    }
-    .modal-close {
-      background: none; border: none;
-      color: var(--muted); font-size: 1.5rem;
-      cursor: pointer; line-height: 1;
-      transition: color 0.2s;
-    }
+    .modal-title { font-family: 'Orbitron', monospace; font-size: 1rem; font-weight: 700; }
+    .modal-close { background: none; border: none; color: var(--muted); font-size: 1.5rem; cursor: pointer; line-height: 1; transition: color 0.2s; }
     .modal-close:hover { color: var(--danger); }
     .modal-body { padding: 28px; }
 
     /* Form */
     .form-group { margin-bottom: 20px; }
-    .form-label {
-      display: block;
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 8px;
-    }
+    .form-label { display: block; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
     .form-input, .form-select, .form-textarea {
-      width: 100%;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 12px 16px;
-      color: var(--fg);
-      font-family: 'Exo 2', sans-serif;
-      font-size: 0.9rem;
-      outline: none;
-      transition: border-color 0.2s;
+      width: 100%; background: var(--bg3); border: 1px solid var(--border);
+      border-radius: 8px; padding: 12px 16px; color: var(--fg);
+      font-family: 'Exo 2', sans-serif; font-size: 0.9rem; outline: none; transition: border-color 0.2s;
     }
     .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: var(--accent); }
     .form-select option { background: var(--bg3); }
     .form-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
-
     .skin-template {
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 16px;
-      font-size: 0.82rem;
-      color: var(--muted);
-      line-height: 1.8;
-      white-space: pre-wrap;
-      font-family: monospace;
-      margin-bottom: 8px;
+      background: var(--bg3); border: 1px solid var(--border); border-radius: 8px;
+      padding: 16px; font-size: 0.82rem; color: var(--muted); line-height: 1.8;
+      white-space: pre-wrap; font-family: monospace; margin-bottom: 8px;
     }
-
     .form-section {
-      background: rgba(0,212,255,0.04);
-      border: 1px solid rgba(0,212,255,0.12);
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
+      background: rgba(0,212,255,0.04); border: 1px solid rgba(0,212,255,0.12);
+      border-radius: 10px; padding: 20px; margin-bottom: 20px;
     }
     .form-section-title {
-      font-family: 'Orbitron', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      color: var(--accent);
-      text-transform: uppercase;
-      margin-bottom: 16px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(0,212,255,0.12);
+      font-family: 'Orbitron', monospace; font-size: 0.75rem; letter-spacing: 0.15em;
+      color: var(--accent); text-transform: uppercase; margin-bottom: 16px;
+      padding-bottom: 10px; border-bottom: 1px solid rgba(0,212,255,0.12);
     }
-
     .btn-submit {
-      width: 100%;
-      background: linear-gradient(135deg, var(--accent2), #00aa66);
-      color: #000;
-      border: none;
-      padding: 15px;
-      border-radius: 8px;
-      font-family: 'Orbitron', monospace;
-      font-size: 0.85rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: all 0.2s;
-      box-shadow: 0 4px 20px rgba(0,255,136,0.25);
+      width: 100%; background: linear-gradient(135deg, var(--accent2), #00aa66);
+      color: #000; border: none; padding: 15px; border-radius: 8px;
+      font-family: 'Orbitron', monospace; font-size: 0.85rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer;
+      margin-top: 8px; transition: all 0.2s; box-shadow: 0 4px 20px rgba(0,255,136,0.25);
     }
     .btn-submit:hover { transform: translateY(-1px); box-shadow: 0 8px 30px rgba(0,255,136,0.4); }
     .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
     .upload-label {
-      display: block;
-      border: 2px dashed var(--border);
-      border-radius: 8px;
-      padding: 20px;
-      text-align: center;
-      cursor: pointer;
-      color: var(--muted);
-      font-size: 0.85rem;
-      transition: border-color 0.2s;
+      display: block; border: 2px dashed var(--border); border-radius: 8px;
+      padding: 20px; text-align: center; cursor: pointer; color: var(--muted);
+      font-size: 0.85rem; transition: border-color 0.2s;
     }
     .upload-label:hover { border-color: var(--accent); color: var(--accent); }
     .upload-label input { display: none; }
-
-    /* Alert */
-    .alert {
-      display: none;
-      padding: 14px 18px;
-      border-radius: 8px;
-      font-size: 0.88rem;
-      margin-bottom: 20px;
-      font-weight: 500;
-    }
+    .alert { display: none; padding: 14px 18px; border-radius: 8px; font-size: 0.88rem; margin-bottom: 20px; font-weight: 500; }
     .alert.success { background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.3); color: var(--accent2); display: block; }
     .alert.error { background: rgba(255,68,68,0.1); border: 1px solid rgba(255,68,68,0.3); color: var(--danger); display: block; }
 
-    /* Scrollbar */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
@@ -470,136 +305,174 @@
 
 <!-- NAVBAR -->
 <nav>
-  <div class="nav-logo">YUU STORE</div>
+  <div class="nav-logo" onclick="showPage('home')">YUU STORE</div>
   <div class="nav-links">
-    <a href="#products">Produk</a>
-    <a href="#cara-order">Cara Order</a>
+    <a href="#" onclick="showPage('home');scrollTo('#products')">Produk</a>
+    <a href="#" onclick="showPage('home');scrollTo('#cara-order')">Cara Order</a>
+    <a href="#" onclick="showPage('payment')">Pembayaran</a>
   </div>
 </nav>
 
-<!-- HERO -->
-<div class="hero">
-  <div class="hero-glow"></div>
-  <div class="hero-badge">🎮 Minecraft Store Indonesia</div>
-  <h1>YUU<br><span>STORE</span></h1>
-  <p>Toko Minecraft terpercaya. Redeem Code, Custom Skin, dan Bundle tersedia dengan harga terjangkau.</p>
-  <a href="#products" class="hero-cta">Lihat Produk →</a>
-  <div class="hero-stats">
-    <div class="stat">
-      <div class="stat-num">100%</div>
-      <div class="stat-label">Terpercaya</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">24H</div>
-      <div class="stat-label">Proses</div>
-    </div>
-    <div class="stat">
-      <div class="stat-num">3</div>
-      <div class="stat-label">Produk</div>
+<!-- ══ HOME PAGE ══ -->
+<div class="page active" id="page-home">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-badge">🎮 Minecraft Store Indonesia</div>
+    <h1>YUU<br><span>STORE</span></h1>
+    <p>Toko Minecraft terpercaya. Redeem Code, Custom Skin, dan Bundle tersedia dengan harga terjangkau.</p>
+    <button class="hero-cta" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Lihat Produk →</button>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Terpercaya</div></div>
+      <div class="stat"><div class="stat-num">24H</div><div class="stat-label">Proses</div></div>
+      <div class="stat"><div class="stat-num">3</div><div class="stat-label">Produk</div></div>
     </div>
   </div>
+
+  <!-- PRODUCTS -->
+  <section id="products">
+    <div class="section-label">// products</div>
+    <div class="section-title">Pilih Produk</div>
+    <div class="products-grid">
+
+      <div class="product-card">
+        <div class="product-header">
+          <div class="product-icon">🎫</div>
+          <div class="product-name">Redeem Code Minecraft</div>
+          <div class="product-desc">Kode redeem resmi Minecraft yang langsung bisa digunakan untuk aktivasi game.</div>
+        </div>
+        <div class="product-body">
+          <ul class="product-features">
+            <li>Kode resmi & valid</li>
+            <li>Dikirim via email</li>
+            <li>Proses maksimal 24 jam</li>
+            <li>Garansi kode aktif</li>
+          </ul>
+          <div class="product-price">Rp 310.000 <span>/ kode</span></div>
+          <button class="btn-buy" onclick="openModal('redeem')">Beli Sekarang</button>
+        </div>
+      </div>
+
+      <div class="product-card">
+        <div class="product-header">
+          <div class="product-icon">🎨</div>
+          <div class="product-name">Jasa Custom Skin</div>
+          <div class="product-desc">Skin Minecraft custom sesuai keinginan kamu, dibuat oleh desainer kami.</div>
+        </div>
+        <div class="product-body">
+          <ul class="product-features">
+            <li>Desain sesuai permintaan</li>
+            <li>Format PNG siap pakai</li>
+            <li>Revisi 1x gratis</li>
+            <li>Proses maksimal 24 jam</li>
+          </ul>
+          <div class="product-price">Rp 25.000 <span>/ skin</span></div>
+          <button class="btn-buy" onclick="openModal('skin')">Beli Sekarang</button>
+        </div>
+      </div>
+
+      <div class="product-card featured">
+        <div class="product-badge">HEMAT</div>
+        <div class="product-header">
+          <div class="product-icon">💎</div>
+          <div class="product-name">Bundle Pack</div>
+          <div class="product-desc">Redeem Code + Custom Skin dalam satu paket. Lebih hemat dari beli satuan!</div>
+        </div>
+        <div class="product-body">
+          <ul class="product-features">
+            <li>Redeem Code resmi</li>
+            <li>Custom Skin gratis</li>
+            <li>Hemat Rp 5.000</li>
+            <li>Semua dikirim via email</li>
+          </ul>
+          <div class="product-price">Rp 330.000 <span>/ paket</span></div>
+          <button class="btn-buy gold" onclick="openModal('bundle')">Beli Sekarang</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CARA ORDER -->
+  <section id="cara-order">
+    <div class="section-label">// how to order</div>
+    <div class="section-title">Cara Order</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-title">Pilih Produk</div>
+        <div class="step-desc">Pilih produk yang kamu mau dan klik tombol Beli Sekarang.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-title">Isi Form</div>
+        <div class="step-desc">Isi data diri dan detail pesanan kamu dengan lengkap.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-title">Bayar</div>
+        <div class="step-desc">Lakukan pembayaran via QRIS sesuai nominal produk.</div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-title">Terima Produk</div>
+        <div class="step-desc">Produk dikirim ke email kamu maksimal 24 jam setelah pembayaran.</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;margin-bottom:8px;background:linear-gradient(90deg,#00d4ff,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">YUU STORE</div>
+    <div>Toko Minecraft Indonesia © 2026</div>
+  </footer>
+
 </div>
 
-<!-- PRODUCTS -->
-<section id="products">
-  <div class="section-label">// products</div>
-  <div class="section-title">Pilih Produk</div>
-  <div class="products-grid">
+<!-- ══ PAYMENT PAGE ══ -->
+<div class="page" id="page-payment">
+  <div class="payment-page">
+    <div class="payment-header">
+      <div class="section-label">// pembayaran</div>
+      <div class="payment-title">Metode <span style="background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Pembayaran</span></div>
+      <div class="payment-subtitle">Kami hanya menerima pembayaran via QRIS. Scan QR code di bawah menggunakan aplikasi dompet digital atau m-banking kamu.</div>
+    </div>
 
-    <!-- Redeem Code -->
-    <div class="product-card">
-      <div class="product-header">
-        <div class="product-icon">🎫</div>
-        <div class="product-name">Redeem Code Minecraft</div>
-        <div class="product-desc">Kode redeem resmi Minecraft yang langsung bisa digunakan untuk aktivasi game.</div>
+    <div class="payment-card">
+      <div class="payment-card-header">
+        <div class="payment-card-title">📱 QRIS — Semua E-Wallet & M-Banking</div>
       </div>
-      <div class="product-body">
-        <ul class="product-features">
-          <li>Kode resmi & valid</li>
-          <li>Dikirim via email</li>
-          <li>Proses maksimal 24 jam</li>
-          <li>Garansi kode aktif</li>
-        </ul>
-        <div class="product-price">Rp 310.000 <span>/ kode</span></div>
-        <button class="btn-buy" onclick="openModal('redeem')">Beli Sekarang</button>
+      <div class="payment-card-body">
+        <div class="qris-container">
+          <!-- GANTI src dengan link gambar QRIS kamu -->
+          <!-- Contoh: <img class="qris-img" src="https://link-qris-kamu.jpg" alt="QRIS Yuu Store"/> -->
+          <div class="qris-placeholder">
+            <div style="font-size:3rem">📷</div>
+            <div>Upload gambar QRIS kamu</div>
+            <div style="font-size:0.75rem">Ganti kode di bawah ini</div>
+          </div>
+          <div class="qris-name">YUU STORE</div>
+          <div class="qris-note">Scan dengan GoPay, OVO, Dana, ShopeePay, LinkAja, atau M-Banking</div>
+        </div>
+        <div class="payment-info">
+          <strong>Cara Bayar:</strong><br>
+          1. Buka aplikasi dompet digital atau M-Banking kamu<br>
+          2. Pilih menu Scan / QRIS<br>
+          3. Scan QR code di atas<br>
+          4. Masukkan nominal sesuai produk yang dipesan<br>
+          5. Konfirmasi pembayaran<br>
+          6. Screenshot bukti bayar & kirim ke kami<br><br>
+          <strong>Harga Produk:</strong><br>
+          🎫 Redeem Code — <strong style="color:var(--fg)">Rp 310.000</strong><br>
+          🎨 Custom Skin — <strong style="color:var(--fg)">Rp 25.000</strong><br>
+          💎 Bundle Pack — <strong style="color:var(--gold)">Rp 330.000</strong>
+        </div>
       </div>
     </div>
 
-    <!-- Custom Skin -->
-    <div class="product-card">
-      <div class="product-header">
-        <div class="product-icon">🎨</div>
-        <div class="product-name">Jasa Custom Skin</div>
-        <div class="product-desc">Skin Minecraft custom sesuai keinginan kamu, dibuat oleh desainer kami.</div>
-      </div>
-      <div class="product-body">
-        <ul class="product-features">
-          <li>Desain sesuai permintaan</li>
-          <li>Format PNG siap pakai</li>
-          <li>Revisi 1x gratis</li>
-          <li>Proses maksimal 24 jam</li>
-        </ul>
-        <div class="product-price">Rp 25.000 <span>/ skin</span></div>
-        <button class="btn-buy" onclick="openModal('skin')">Beli Sekarang</button>
-      </div>
-    </div>
-
-    <!-- Bundle -->
-    <div class="product-card featured">
-      <div class="product-badge">HEMAT</div>
-      <div class="product-header">
-        <div class="product-icon">💎</div>
-        <div class="product-name">Bundle Pack</div>
-        <div class="product-desc">Redeem Code + Custom Skin dalam satu paket. Lebih hemat dari beli satuan!</div>
-      </div>
-      <div class="product-body">
-        <ul class="product-features">
-          <li>Redeem Code resmi</li>
-          <li>Custom Skin gratis</li>
-          <li>Hemat Rp 5.000</li>
-          <li>Semua dikirim via email</li>
-        </ul>
-        <div class="product-price">Rp 330.000 <span>/ paket</span></div>
-        <button class="btn-buy gold" onclick="openModal('bundle')">Beli Sekarang</button>
-      </div>
-    </div>
-
+    <button class="btn-back" onclick="showPage('home')">← Kembali ke Toko</button>
   </div>
-</section>
-
-<!-- CARA ORDER -->
-<section id="cara-order">
-  <div class="section-label">// how to order</div>
-  <div class="section-title">Cara Order</div>
-  <div class="steps">
-    <div class="step">
-      <div class="step-num">01</div>
-      <div class="step-title">Pilih Produk</div>
-      <div class="step-desc">Pilih produk yang kamu mau dan klik tombol Beli Sekarang.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">02</div>
-      <div class="step-title">Isi Form</div>
-      <div class="step-desc">Isi data diri dan detail pesanan kamu dengan lengkap.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">03</div>
-      <div class="step-title">Kirim Pesanan</div>
-      <div class="step-desc">Submit form dan pesanan kamu akan langsung kami proses.</div>
-    </div>
-    <div class="step">
-      <div class="step-num">04</div>
-      <div class="step-title">Terima Produk</div>
-      <div class="step-desc">Produk dikirim ke email kamu maksimal 24 jam setelah pembayaran.</div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <div style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;margin-bottom:8px;background:linear-gradient(90deg,#00d4ff,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">YUU STORE</div>
-  <div>Toko Minecraft Indonesia © 2026</div>
-</footer>
+</div>
 
 <!-- ══ MODAL: REDEEM CODE ══ -->
 <div class="modal-overlay" id="modal-redeem">
@@ -613,16 +486,16 @@
       <div class="form-section">
         <div class="form-section-title">Data Diri</div>
         <div class="form-group">
+          <label class="form-label">Nama *</label>
+          <input type="text" class="form-input" id="redeem-name" placeholder="Nama kamu"/>
+        </div>
+        <div class="form-group">
           <label class="form-label">Email *</label>
           <input type="email" class="form-input" id="redeem-email" placeholder="email@kamu.com"/>
         </div>
         <div class="form-group">
           <label class="form-label">Nomor Telepon *</label>
           <input type="tel" class="form-input" id="redeem-phone" placeholder="08xxxxxxxxxx"/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Nama *</label>
-          <input type="text" class="form-input" id="redeem-name" placeholder="Nama kamu"/>
         </div>
       </div>
       <div class="form-section">
@@ -634,7 +507,7 @@
       </div>
       <div style="background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);border-radius:8px;padding:14px;margin-bottom:20px;font-size:0.82rem;color:var(--muted);line-height:1.6">
         💳 <strong style="color:var(--fg)">Total: Rp 310.000</strong><br>
-        Setelah submit, kami akan menghubungi kamu untuk info pembayaran.
+        Setelah submit, lakukan pembayaran via QRIS. <a href="#" onclick="closeModal('redeem');showPage('payment')" style="color:var(--accent)">Lihat info pembayaran →</a>
       </div>
       <button class="btn-submit" id="btn-redeem" onclick="submitOrder('redeem')">Submit Pesanan →</button>
     </div>
@@ -653,16 +526,16 @@
       <div class="form-section">
         <div class="form-section-title">Data Diri</div>
         <div class="form-group">
+          <label class="form-label">Nama *</label>
+          <input type="text" class="form-input" id="skin-name" placeholder="Nama kamu"/>
+        </div>
+        <div class="form-group">
           <label class="form-label">Email *</label>
           <input type="email" class="form-input" id="skin-email" placeholder="email@kamu.com"/>
         </div>
         <div class="form-group">
           <label class="form-label">Nomor Telepon *</label>
           <input type="tel" class="form-input" id="skin-phone" placeholder="08xxxxxxxxxx"/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Nama *</label>
-          <input type="text" class="form-input" id="skin-name" placeholder="Nama kamu"/>
         </div>
       </div>
       <div class="form-section">
@@ -720,8 +593,8 @@ c) Pakaian 🧥
    - Penjelasan: 
 
 d) Detail 🔎
-Jika mempunyai gambar referensi, upload di bawah.</div>
-          <textarea class="form-textarea" id="skin-desc" placeholder="Isi detail skin kamu di sini...&#10;&#10;a) Kepala 🧔🏼&#10;1. Rambut&#10;   - Warna: &#10;   - Penjelasan: &#10;&#10;b) Badan 💪&#10;1. Kulit&#10;   - Warna: &#10;&#10;c) Pakaian 🧥&#10;1. Baju&#10;   - Warna: &#10;   - Ukuran: panjang/pendek&#10;   - Penjelasan: &#10;2. Celana&#10;   - Warna: &#10;3. Sepatu&#10;   - Warna: " style="min-height:200px"></textarea>
+Jika punya gambar referensi, upload di bawah.</div>
+          <textarea class="form-textarea" id="skin-desc" placeholder="Isi detail skin kamu di sini..." style="min-height:200px"></textarea>
         </div>
         <div class="form-group">
           <label class="form-label">Gambar Referensi (opsional)</label>
@@ -734,7 +607,7 @@ Jika mempunyai gambar referensi, upload di bawah.</div>
       </div>
       <div style="background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);border-radius:8px;padding:14px;margin-bottom:20px;font-size:0.82rem;color:var(--muted);line-height:1.6">
         💳 <strong style="color:var(--fg)">Total: Rp 25.000</strong><br>
-        Setelah submit, kami akan menghubungi kamu untuk info pembayaran.
+        Setelah submit, lakukan pembayaran via QRIS. <a href="#" onclick="closeModal('skin');showPage('payment')" style="color:var(--accent)">Lihat info pembayaran →</a>
       </div>
       <button class="btn-submit" id="btn-skin" onclick="submitOrder('skin')">Submit Pesanan →</button>
     </div>
@@ -753,16 +626,16 @@ Jika mempunyai gambar referensi, upload di bawah.</div>
       <div class="form-section">
         <div class="form-section-title">Data Diri</div>
         <div class="form-group">
+          <label class="form-label">Nama *</label>
+          <input type="text" class="form-input" id="bundle-name" placeholder="Nama kamu"/>
+        </div>
+        <div class="form-group">
           <label class="form-label">Email *</label>
           <input type="email" class="form-input" id="bundle-email" placeholder="email@kamu.com"/>
         </div>
         <div class="form-group">
           <label class="form-label">Nomor Telepon *</label>
           <input type="tel" class="form-input" id="bundle-phone" placeholder="08xxxxxxxxxx"/>
-        </div>
-        <div class="form-group">
-          <label class="form-label">Nama *</label>
-          <input type="text" class="form-input" id="bundle-name" placeholder="Nama kamu"/>
         </div>
       </div>
       <div class="form-section">
@@ -820,7 +693,7 @@ c) Pakaian 🧥
    - Penjelasan: 
 
 d) Detail 🔎
-Jika mempunyai gambar referensi, upload di bawah.</div>
+Jika punya gambar referensi, upload di bawah.</div>
           <textarea class="form-textarea" id="bundle-skin-desc" placeholder="Isi detail skin kamu..." style="min-height:200px"></textarea>
         </div>
         <div class="form-group">
@@ -834,7 +707,7 @@ Jika mempunyai gambar referensi, upload di bawah.</div>
       </div>
       <div style="background:rgba(255,215,0,0.06);border:1px solid rgba(255,215,0,0.2);border-radius:8px;padding:14px;margin-bottom:20px;font-size:0.82rem;color:var(--muted);line-height:1.6">
         💳 <strong style="color:var(--gold)">Total: Rp 330.000</strong> <span style="color:var(--accent2);font-size:0.75rem">• Hemat Rp 5.000!</span><br>
-        Setelah submit, kami akan menghubungi kamu untuk info pembayaran.
+        Setelah submit, lakukan pembayaran via QRIS. <a href="#" onclick="closeModal('bundle');showPage('payment')" style="color:var(--accent)">Lihat info pembayaran →</a>
       </div>
       <button class="btn-submit" id="btn-bundle" onclick="submitOrder('bundle')">Submit Pesanan →</button>
     </div>
@@ -842,16 +715,24 @@ Jika mempunyai gambar referensi, upload di bawah.</div>
 </div>
 
 <script>
-  // ── EmailJS Config ──────────────────────────────────────────────────
-  // GANTI dengan credentials EmailJS kamu:
+  // ═══════════════════════════════════════════════════════════════
+  // GANTI INI DENGAN CREDENTIALS EMAILJS KAMU:
   const EMAILJS_PUBLIC_KEY  = 'lCcjiyNOXIw_AVzJB';
   const EMAILJS_SERVICE_ID  = 'service_jl6xm6h';
   const EMAILJS_TEMPLATE_ID = 'template_0debqru';
-  const OWNER_EMAIL         = 'ahmadsatriayudha88@gmail.com'; // email yang mau nerima order
+  const OWNER_EMAIL         = 'ahmadsatriayudha88@gmail.com';
+  // ═══════════════════════════════════════════════════════════════
 
   emailjs.init(EMAILJS_PUBLIC_KEY);
 
-  // ── Modal functions ─────────────────────────────────────────────────
+  // ── Page navigation ─────────────────────────────────────────────
+  function showPage(page) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(`page-${page}`).classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // ── Modal ────────────────────────────────────────────────────────
   function openModal(type) {
     document.getElementById(`modal-${type}`).classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -859,119 +740,78 @@ Jika mempunyai gambar referensi, upload di bawah.</div>
   function closeModal(type) {
     document.getElementById(`modal-${type}`).classList.remove('open');
     document.body.style.overflow = '';
-    // Reset alert
     const alert = document.getElementById(`alert-${type}`);
-    alert.className = 'alert';
-    alert.textContent = '';
+    alert.className = 'alert'; alert.textContent = '';
   }
-  // Close on overlay click
   document.querySelectorAll('.modal-overlay').forEach(overlay => {
     overlay.addEventListener('click', e => {
-      if (e.target === overlay) {
-        const type = overlay.id.replace('modal-', '');
-        closeModal(type);
-      }
+      if (e.target === overlay) closeModal(overlay.id.replace('modal-', ''));
     });
   });
 
   function handleFileChange(labelId, input) {
     const label = document.getElementById(labelId);
-    if (input.files.length > 0) {
-      label.textContent = '✓ ' + input.files[0].name;
-    }
+    if (input.files.length > 0) label.textContent = '✓ ' + input.files[0].name;
   }
 
   function showAlert(type, msg, isError = false) {
     const el = document.getElementById(`alert-${type}`);
     el.textContent = msg;
     el.className = 'alert ' + (isError ? 'error' : 'success');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }
 
-  // ── Submit order ────────────────────────────────────────────────────
+  // ── Submit ───────────────────────────────────────────────────────
   async function submitOrder(type) {
     const btn = document.getElementById(`btn-${type}`);
-    btn.disabled = true;
-    btn.textContent = 'Mengirim...';
+    btn.disabled = true; btn.textContent = 'Mengirim...';
 
-    let templateParams = {};
-    let valid = true;
+    let templateParams = {}; let valid = true;
 
     if (type === 'redeem') {
+      const name  = document.getElementById('redeem-name').value.trim();
       const email = document.getElementById('redeem-email').value.trim();
       const phone = document.getElementById('redeem-phone').value.trim();
-      const name  = document.getElementById('redeem-name').value.trim();
       const note  = document.getElementById('redeem-note').value.trim();
-
-      if (!email || !phone || !name) { valid = false; }
-      templateParams = {
-        to_email: OWNER_EMAIL,
-        order_type: '🎫 Redeem Code Minecraft',
-        harga: 'Rp 310.000',
-        nama: name,
-        email: email,
-        telepon: phone,
-        detail: note || '-',
-      };
+      if (!name || !email || !phone) { valid = false; }
+      templateParams = { to_email: OWNER_EMAIL, order_type: '🎫 Redeem Code Minecraft', harga: 'Rp 310.000', nama: name, email, telepon: phone, detail: note || '-' };
     }
-
     else if (type === 'skin') {
+      const name   = document.getElementById('skin-name').value.trim();
       const email  = document.getElementById('skin-email').value.trim();
       const phone  = document.getElementById('skin-phone').value.trim();
-      const name   = document.getElementById('skin-name').value.trim();
       const stype  = document.getElementById('skin-type').value;
       const ssize  = document.getElementById('skin-size').value;
       const sgender= document.getElementById('skin-gender').value;
       const sdesc  = document.getElementById('skin-desc').value.trim();
-
-      if (!email || !phone || !name || !stype || !ssize || !sgender || !sdesc) { valid = false; }
-      templateParams = {
-        to_email: OWNER_EMAIL,
-        order_type: '🎨 Custom Skin',
-        harga: 'Rp 25.000',
-        nama: name,
-        email: email,
-        telepon: phone,
-        detail: `Tipe: ${stype}\nUkuran: ${ssize}\nGender: ${sgender}\n\n${sdesc}`,
-      };
+      if (!name || !email || !phone || !stype || !ssize || !sgender || !sdesc) { valid = false; }
+      templateParams = { to_email: OWNER_EMAIL, order_type: '🎨 Custom Skin', harga: 'Rp 25.000', nama: name, email, telepon: phone, detail: `Tipe: ${stype}\nUkuran: ${ssize}\nGender: ${sgender}\n\n${sdesc}` };
     }
-
     else if (type === 'bundle') {
+      const name   = document.getElementById('bundle-name').value.trim();
       const email  = document.getElementById('bundle-email').value.trim();
       const phone  = document.getElementById('bundle-phone').value.trim();
-      const name   = document.getElementById('bundle-name').value.trim();
       const stype  = document.getElementById('bundle-skin-type').value;
       const ssize  = document.getElementById('bundle-skin-size').value;
       const sgender= document.getElementById('bundle-skin-gender').value;
       const sdesc  = document.getElementById('bundle-skin-desc').value.trim();
-
-      if (!email || !phone || !name || !stype || !ssize || !sgender || !sdesc) { valid = false; }
-      templateParams = {
-        to_email: OWNER_EMAIL,
-        order_type: '💎 Bundle Pack (Redeem + Custom Skin)',
-        harga: 'Rp 330.000',
-        nama: name,
-        email: email,
-        telepon: phone,
-        detail: `Tipe: ${stype}\nUkuran: ${ssize}\nGender: ${sgender}\n\n${sdesc}`,
-      };
+      if (!name || !email || !phone || !stype || !ssize || !sgender || !sdesc) { valid = false; }
+      templateParams = { to_email: OWNER_EMAIL, order_type: '💎 Bundle Pack', harga: 'Rp 330.000', nama: name, email, telepon: phone, detail: `Tipe: ${stype}\nUkuran: ${ssize}\nGender: ${sgender}\n\n${sdesc}` };
     }
 
     if (!valid) {
       showAlert(type, '❌ Harap isi semua field yang wajib diisi!', true);
-      btn.disabled = false;
-      btn.textContent = 'Submit Pesanan →';
-      return;
+      btn.disabled = false; btn.textContent = 'Submit Pesanan →'; return;
     }
 
     try {
       await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
-      showAlert(type, '✅ Pesanan berhasil dikirim! Kami akan menghubungi kamu segera.');
+      showAlert(type, '✅ Pesanan berhasil dikirim! Silakan lakukan pembayaran via QRIS.');
       btn.textContent = '✓ Terkirim!';
     } catch (err) {
       console.error(err);
-      showAlert(type, '❌ Gagal mengirim pesanan. Coba lagi atau hubungi kami langsung.', true);
-      btn.disabled = false;
-      btn.textContent = 'Submit Pesanan →';
+      showAlert(type, '❌ Gagal mengirim. Coba lagi atau hubungi kami langsung.', true);
+      btn.disabled = false; btn.textContent = 'Submit Pesanan →';
     }
   }
 </script>

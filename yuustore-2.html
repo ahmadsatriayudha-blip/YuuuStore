@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Yuu Store — Minecraft Shop</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Exo+2:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    :root{--bg:#080c10;--bg2:#0d1318;--bg3:#111820;--border:#1e2d3d;--fg:#e8f4ff;--muted:#5a7a8a;--accent:#00d4ff;--accent2:#00ff88;--danger:#ff4444;--gold:#ffd700}
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{background:var(--bg);color:var(--fg);font-family:'Exo 2',sans-serif;overflow-x:hidden;min-height:100vh}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,212,255,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,212,255,0.03) 1px,transparent 1px);background-size:40px 40px;pointer-events:none;z-index:0}
+
+    nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(8,12,16,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 40px;height:64px;display:flex;align-items:center;justify-content:space-between}
+    .nav-logo{font-family:'Orbitron',monospace;font-size:1.4rem;font-weight:900;letter-spacing:0.15em;background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;cursor:pointer}
+    .nav-links{display:flex;gap:32px}
+    .nav-links a{color:var(--muted);text-decoration:none;font-size:0.85rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;transition:color 0.2s;cursor:pointer}
+    .nav-links a:hover{color:var(--accent)}
+
+    .hero{position:relative;z-index:1;min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 20px 60px;overflow:hidden}
+    .hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(0,212,255,0.08) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+    .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.2);border-radius:50px;padding:6px 18px;font-size:0.72rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:28px}
+    .hero-badge::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--accent2);animation:pulse 2s ease infinite}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+    .hero h1{font-family:'Orbitron',monospace;font-size:clamp(3rem,8vw,6rem);font-weight:900;letter-spacing:0.08em;line-height:1;margin-bottom:16px}
+    .hero h1 span{background:linear-gradient(135deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .hero p{font-size:1.1rem;color:var(--muted);max-width:480px;line-height:1.7;margin-bottom:40px}
+    .hero-cta{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#000;padding:14px 36px;border-radius:6px;font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;box-shadow:0 0 30px rgba(0,212,255,0.3);transition:transform 0.2s,box-shadow 0.2s;cursor:pointer;border:none}
+    .hero-cta:hover{transform:translateY(-2px);box-shadow:0 0 50px rgba(0,212,255,0.5)}
+    .hero-stats{display:flex;gap:48px;margin-top:64px}
+    .stat{text-align:center}
+    .stat-num{font-family:'Orbitron',monospace;font-size:1.8rem;font-weight:900;color:var(--accent)}
+    .stat-label{font-size:0.75rem;color:var(--muted);letter-spacing:0.1em;text-transform:uppercase;margin-top:4px}
+
+    section{position:relative;z-index:1;padding:80px 40px;max-width:1200px;margin:0 auto}
+    .section-label{font-family:'Orbitron',monospace;font-size:0.65rem;letter-spacing:0.3em;color:var(--accent);text-transform:uppercase;margin-bottom:12px}
+    .section-title{font-family:'Orbitron',monospace;font-size:clamp(1.5rem,4vw,2.2rem);font-weight:700;margin-bottom:48px}
+
+    .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+    .product-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:transform 0.3s,border-color 0.3s,box-shadow 0.3s;position:relative}
+    .product-card:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 0 30px rgba(0,212,255,0.1)}
+    .product-card.featured{border-color:var(--gold);box-shadow:0 0 20px rgba(255,215,0,0.1)}
+    .product-card.featured:hover{box-shadow:0 0 40px rgba(255,215,0,0.2)}
+    .product-badge{position:absolute;top:16px;right:16px;background:var(--gold);color:#000;font-size:0.65rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:4px 10px;border-radius:4px}
+    .product-header{padding:28px 28px 20px;border-bottom:1px solid var(--border)}
+    .product-icon{font-size:2.5rem;margin-bottom:12px}
+    .product-name{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700;letter-spacing:0.05em;margin-bottom:8px}
+    .product-desc{font-size:0.85rem;color:var(--muted);line-height:1.6}
+    .product-body{padding:20px 28px 28px}
+    .product-features{list-style:none;margin-bottom:24px}
+    .product-features li{font-size:0.82rem;color:var(--muted);padding:6px 0;border-bottom:1px solid rgba(30,45,61,0.5);display:flex;align-items:center;gap:8px}
+    .product-features li::before{content:'▸';color:var(--accent2);font-size:0.7rem}
+    .product-price{font-family:'Orbitron',monospace;font-size:1.6rem;font-weight:900;color:var(--accent2);margin-bottom:16px}
+    .product-price span{font-size:0.8rem;color:var(--muted);font-weight:400}
+    .btn-buy{width:100%;background:linear-gradient(135deg,var(--accent),#0099cc);color:#000;border:none;padding:13px;border-radius:8px;font-family:'Orbitron',monospace;font-size:0.8rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;transition:all 0.2s;box-shadow:0 4px 20px rgba(0,212,255,0.25)}
+    .btn-buy:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(0,212,255,0.4)}
+    .btn-buy.gold{background:linear-gradient(135deg,var(--gold),#ffaa00);box-shadow:0 4px 20px rgba(255,215,0,0.25)}
+    .btn-buy.gold:hover{box-shadow:0 8px 30px rgba(255,215,0,0.4)}
+    .btn-buy.green{background:linear-gradient(135deg,#00c853,#00a040);box-shadow:0 4px 20px rgba(0,200,83,0.25)}
+    .btn-buy.green:hover{box-shadow:0 8px 30px rgba(0,200,83,0.4)}
+
+    .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px}
+    .step{background:var(--bg2);border:1px solid var(--border);border-radius:12px;padding:28px;text-align:center}
+    .step-num{font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;color:var(--accent);opacity:0.3;margin-bottom:12px}
+    .step-title{font-weight:600;margin-bottom:8px;font-size:0.95rem}
+    .step-desc{font-size:0.8rem;color:var(--muted);line-height:1.6}
+
+    footer{position:relative;z-index:1;border-top:1px solid var(--border);padding:40px;text-align:center;color:var(--muted);font-size:0.82rem}
+
+    .modal-overlay{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.8);backdrop-filter:blur(8px);align-items:center;justify-content:center;padding:20px}
+    .modal-overlay.open{display:flex}
+    .modal{background:var(--bg2);border:1px solid var(--border);border-radius:16px;width:100%;max-width:600px;max-height:90vh;overflow-y:auto;position:relative;animation:modalIn 0.3s ease}
+    @keyframes modalIn{from{opacity:0;transform:scale(0.95) translateY(10px)}to{opacity:1;transform:scale(1) translateY(0)}}
+    .modal-header{padding:24px 28px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--bg2);z-index:1}
+    .modal-title{font-family:'Orbitron',monospace;font-size:1rem;font-weight:700}
+    .modal-close{background:none;border:none;color:var(--muted);font-size:1.5rem;cursor:pointer;line-height:1;transition:color 0.2s}
+    .modal-close:hover{color:var(--danger)}
+    .modal-body{padding:28px}
+    .form-group{margin-bottom:20px}
+    .form-label{display:block;font-size:0.78rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+    .form-input,.form-select,.form-textarea{width:100%;background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:12px 16px;color:var(--fg);font-family:'Exo 2',sans-serif;font-size:0.9rem;outline:none;transition:border-color 0.2s}
+    .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--accent)}
+    .form-select option{background:var(--bg3)}
+    .form-textarea{resize:vertical;min-height:120px;line-height:1.6}
+    .skin-template{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:16px;font-size:0.82rem;color:var(--muted);line-height:1.8;white-space:pre-wrap;font-family:monospace;margin-bottom:8px}
+    .form-section{background:rgba(0,212,255,0.04);border:1px solid rgba(0,212,255,0.12);border-radius:10px;padding:20px;margin-bottom:20px}
+    .form-section-title{font-family:'Orbitron',monospace;font-size:0.75rem;letter-spacing:0.15em;color:var(--accent);text-transform:uppercase;margin-bottom:16px;padding-bottom:10px;border-bottom:1px solid rgba(0,212,255,0.12)}
+    .btn-submit{width:100%;background:linear-gradient(135deg,#25d366,#128c7e);color:#fff;border:none;padding:15px;border-radius:8px;font-family:'Orbitron',monospace;font-size:0.85rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;cursor:pointer;margin-top:8px;transition:all 0.2s;box-shadow:0 4px 20px rgba(37,211,102,0.25);display:flex;align-items:center;justify-content:center;gap:10px}
+    .btn-submit:hover{transform:translateY(-1px);box-shadow:0 8px 30px rgba(37,211,102,0.4)}
+    .alert{display:none;padding:14px 18px;border-radius:8px;font-size:0.88rem;margin-bottom:20px;font-weight:500}
+    .alert.error{background:rgba(255,68,68,0.1);border:1px solid rgba(255,68,68,0.3);color:var(--danger);display:block}
+    .price-box{background:rgba(0,212,255,0.06);border:1px solid rgba(0,212,255,0.15);border-radius:8px;padding:14px;margin-bottom:20px;font-size:0.82rem;color:var(--muted);line-height:1.6}
+    ::-webkit-scrollbar{width:6px}
+    ::-webkit-scrollbar-track{background:var(--bg)}
+    ::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">YUU STORE</div>
+  <div class="nav-links">
+    <a onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Produk</a>
+    <a onclick="document.getElementById('cara-order').scrollIntoView({behavior:'smooth'})">Cara Order</a>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-badge">🎮 Minecraft Store Indonesia</div>
+  <h1>YUU<br><span>STORE</span></h1>
+  <p>Toko Minecraft terpercaya. Redeem Code, Custom Skin, Minecraft PE, dan Bundle tersedia dengan harga terjangkau.</p>
+  <button class="hero-cta" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Lihat Produk →</button>
+  <div class="hero-stats">
+    <div class="stat"><div class="stat-num">100%</div><div class="stat-label">Terpercaya</div></div>
+    <div class="stat"><div class="stat-num">24H</div><div class="stat-label">Proses</div></div>
+    <div class="stat"><div class="stat-num">4</div><div class="stat-label">Produk</div></div>
+  </div>
+</div>
+
+<section id="products">
+  <div class="section-label">// products</div>
+  <div class="section-title">Pilih Produk</div>
+  <div class="products-grid">
+
+    <!-- Redeem Code -->
+    <div class="product-card">
+      <div class="product-header">
+        <div class="product-icon">🎫</div>
+        <div class="product-name">Redeem Code Minecraft</div>
+        <div class="product-desc">Kode redeem resmi Minecraft yang langsung bisa digunakan untuk aktivasi game.</div>
+      </div>
+      <div class="product-body">
+        <ul class="product-features">
+          <li>Kode resmi & valid</li>
+          <li>Dikirim via WhatsApp</li>
+          <li>Proses maksimal 24 jam</li>
+          <li>Garansi kode aktif</li>
+        </ul>
+        <div class="product-price">Rp 310.000 <span>/ kode</span></div>
+        <button class="btn-buy" onclick="openModal('redeem')">Beli Sekarang</button>
+      </div>
+    </div>
+
+    <!-- Custom Skin -->
+    <div class="product-card">
+      <div class="product-header">
+        <div class="product-icon">🎨</div>
+        <div class="product-name">Jasa Custom Skin</div>
+        <div class="product-desc">Skin Minecraft custom sesuai keinginan kamu, dibuat oleh desainer kami.</div>
+      </div>
+      <div class="product-body">
+        <ul class="product-features">
+          <li>Desain sesuai permintaan</li>
+          <li>Format PNG siap pakai</li>
+          <li>Revisi 1x gratis</li>
+          <li>Proses maksimal 24 jam</li>
+        </ul>
+        <div class="product-price">Rp 25.000 <span>/ skin</span></div>
+        <button class="btn-buy" onclick="openModal('skin')">Beli Sekarang</button>
+      </div>
+    </div>
+
+    <!-- Minecraft PE -->
+    <div class="product-card">
+      <div class="product-header">
+        <div class="product-icon">📱</div>
+        <div class="product-name">Minecraft Pocket Edition</div>
+        <div class="product-desc">Minecraft PE resmi untuk Android, dikirim langsung ke akun Google Play kamu.</div>
+      </div>
+      <div class="product-body">
+        <ul class="product-features">
+          <li>Minecraft PE original</li>
+          <li>Gift via Google Play</li>
+          <li>Butuh akun Gmail</li>
+          <li>Proses maksimal 24 jam</li>
+        </ul>
+        <div class="product-price">Rp 23.000 <span>/ akun</span></div>
+        <button class="btn-buy green" onclick="openModal('mcpe')">Beli Sekarang</button>
+      </div>
+    </div>
+
+    <!-- Bundle -->
+    <div class="product-card featured">
+      <div class="product-badge">HEMAT</div>
+      <div class="product-header">
+        <div class="product-icon">💎</div>
+        <div class="product-name">Bundle Pack</div>
+        <div class="product-desc">Redeem Code + Custom Skin dalam satu paket. Lebih hemat dari beli satuan!</div>
+      </div>
+      <div class="product-body">
+        <ul class="product-features">
+          <li>Redeem Code resmi</li>
+          <li>Custom Skin gratis</li>
+          <li>Hemat Rp 5.000</li>
+          <li>Dikirim via WhatsApp</li>
+        </ul>
+        <div class="product-price">Rp 330.000 <span>/ paket</span></div>
+        <button class="btn-buy gold" onclick="openModal('bundle')">Beli Sekarang</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="cara-order">
+  <div class="section-label">// how to order</div>
+  <div class="section-title">Cara Order</div>
+  <div class="steps">
+    <div class="step"><div class="step-num">01</div><div class="step-title">Pilih Produk</div><div class="step-desc">Pilih produk yang kamu mau dan klik tombol Beli Sekarang.</div></div>
+    <div class="step"><div class="step-num">02</div><div class="step-title">Isi Form</div><div class="step-desc">Isi data diri dan detail pesanan kamu dengan lengkap.</div></div>
+    <div class="step"><div class="step-num">03</div><div class="step-title">Chat WA</div><div class="step-desc">Kamu akan diarahkan ke WhatsApp kami dengan pesan otomatis.</div></div>
+    <div class="step"><div class="step-num">04</div><div class="step-title">Terima Produk</div><div class="step-desc">Produk dikirim maksimal 24 jam setelah pembayaran dikonfirmasi.</div></div>
+  </div>
+</section>
+
+<footer>
+  <div style="font-family:'Orbitron',monospace;font-size:1.1rem;font-weight:900;margin-bottom:8px;background:linear-gradient(90deg,#00d4ff,#00ff88);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">YUU STORE</div>
+  <div>Toko Minecraft Indonesia © 2026</div>
+</footer>
+
+<!-- MODAL REDEEM -->
+<div class="modal-overlay" id="modal-redeem">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🎫 Order Redeem Code</div>
+      <button class="modal-close" onclick="closeModal('redeem')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert" id="alert-redeem"></div>
+      <div class="form-section">
+        <div class="form-section-title">Data Pembeli</div>
+        <div class="form-group">
+          <label class="form-label">Nama *</label>
+          <input type="text" class="form-input" id="redeem-name" placeholder="Nama kamu"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nomor Telepon *</label>
+          <input type="tel" class="form-input" id="redeem-phone" placeholder="08xxxxxxxxxx"/>
+        </div>
+      </div>
+      <div class="price-box">
+        💳 <strong style="color:var(--fg)">Total: Rp 310.000</strong><br>
+        Setelah submit, kamu akan diarahkan ke WhatsApp kami 💬
+      </div>
+      <button class="btn-submit" onclick="submitOrder('redeem')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Lanjut ke WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CUSTOM SKIN -->
+<div class="modal-overlay" id="modal-skin">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">🎨 Order Custom Skin</div>
+      <button class="modal-close" onclick="closeModal('skin')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert" id="alert-skin"></div>
+      <div class="form-section">
+        <div class="form-section-title">Data Pembeli</div>
+        <div class="form-group">
+          <label class="form-label">Nama *</label>
+          <input type="text" class="form-input" id="skin-name" placeholder="Nama kamu"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nomor Telepon *</label>
+          <input type="tel" class="form-input" id="skin-phone" placeholder="08xxxxxxxxxx"/>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">Detail Skin</div>
+        <div class="form-group">
+          <label class="form-label">Tipe Skin *</label>
+          <select class="form-select" id="skin-type">
+            <option value="">Pilih tipe skin...</option>
+            <option>Steve (Lengan lebar)</option>
+            <option>Alex (Lengan ramping)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ukuran Skin *</label>
+          <select class="form-select" id="skin-size">
+            <option value="">Pilih ukuran...</option>
+            <option>32x32</option>
+            <option>64x64</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gender Skin *</label>
+          <select class="form-select" id="skin-gender">
+            <option value="">Pilih gender...</option>
+            <option>Laki-Laki</option>
+            <option>Perempuan</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Deskripsi Detail Skin *</label>
+          <div class="skin-template">a) Kepala 🧔🏼
+1. Rambut
+   - Warna: 
+   - Penjelasan: 
+2. Mata
+   - Warna: 
+   - Penjelasan: 
+
+b) Badan 💪
+1. Kulit
+   - Warna: 
+   - Penjelasan: 
+
+c) Pakaian 🧥
+1. Baju
+   - Warna: 
+   - Ukuran: panjang/pendek
+   - Penjelasan: 
+2. Celana
+   - Warna: 
+   - Ukuran: panjang/pendek
+   - Penjelasan: 
+3. Sepatu
+   - Warna: 
+   - Penjelasan: 
+
+d) Detail 🔎
+Jika punya gambar referensi, kirim via WhatsApp.</div>
+          <textarea class="form-textarea" id="skin-desc" placeholder="Isi detail skin kamu di sini..." style="min-height:180px"></textarea>
+        </div>
+      </div>
+      <div class="price-box">
+        💳 <strong style="color:var(--fg)">Total: Rp 25.000</strong><br>
+        Setelah submit, kamu akan diarahkan ke WhatsApp kami 💬<br>
+        <span style="color:var(--accent2)">*Kirim foto referensi di WhatsApp jika ada</span>
+      </div>
+      <button class="btn-submit" onclick="submitOrder('skin')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Lanjut ke WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL MCPE -->
+<div class="modal-overlay" id="modal-mcpe">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">📱 Order Minecraft PE</div>
+      <button class="modal-close" onclick="closeModal('mcpe')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert" id="alert-mcpe"></div>
+      <div class="form-section">
+        <div class="form-section-title">Data Pembeli</div>
+        <div class="form-group">
+          <label class="form-label">Nama *</label>
+          <input type="text" class="form-input" id="mcpe-name" placeholder="Nama kamu"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nomor Telepon *</label>
+          <input type="tel" class="form-input" id="mcpe-phone" placeholder="08xxxxxxxxxx"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Akun Gmail *</label>
+          <input type="email" class="form-input" id="mcpe-gmail" placeholder="emailkamu@gmail.com"/>
+        </div>
+      </div>
+      <div class="price-box" style="border-color:rgba(0,200,83,0.2);background:rgba(0,200,83,0.06)">
+        💳 <strong style="color:var(--fg)">Total: Rp 23.000</strong><br>
+        Minecraft PE akan di-gift langsung ke akun Gmail kamu via Google Play 💬
+      </div>
+      <button class="btn-submit" onclick="submitOrder('mcpe')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Lanjut ke WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL BUNDLE -->
+<div class="modal-overlay" id="modal-bundle">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">💎 Order Bundle Pack</div>
+      <button class="modal-close" onclick="closeModal('bundle')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert" id="alert-bundle"></div>
+      <div class="form-section">
+        <div class="form-section-title">Data Pembeli</div>
+        <div class="form-group">
+          <label class="form-label">Nama *</label>
+          <input type="text" class="form-input" id="bundle-name" placeholder="Nama kamu"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nomor Telepon *</label>
+          <input type="tel" class="form-input" id="bundle-phone" placeholder="08xxxxxxxxxx"/>
+        </div>
+      </div>
+      <div class="form-section">
+        <div class="form-section-title">Detail Custom Skin</div>
+        <div class="form-group">
+          <label class="form-label">Tipe Skin *</label>
+          <select class="form-select" id="bundle-skin-type">
+            <option value="">Pilih tipe skin...</option>
+            <option>Steve (Lengan lebar)</option>
+            <option>Alex (Lengan ramping)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Ukuran Skin *</label>
+          <select class="form-select" id="bundle-skin-size">
+            <option value="">Pilih ukuran...</option>
+            <option>32x32</option>
+            <option>64x64</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gender Skin *</label>
+          <select class="form-select" id="bundle-skin-gender">
+            <option value="">Pilih gender...</option>
+            <option>Laki-Laki</option>
+            <option>Perempuan</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Deskripsi Detail Skin *</label>
+          <div class="skin-template">a) Kepala 🧔🏼
+1. Rambut
+   - Warna: 
+   - Penjelasan: 
+2. Mata
+   - Warna: 
+   - Penjelasan: 
+
+b) Badan 💪
+1. Kulit
+   - Warna: 
+   - Penjelasan: 
+
+c) Pakaian 🧥
+1. Baju
+   - Warna: 
+   - Ukuran: panjang/pendek
+   - Penjelasan: 
+2. Celana
+   - Warna: 
+   - Ukuran: panjang/pendek
+   - Penjelasan: 
+3. Sepatu
+   - Warna: 
+   - Penjelasan: 
+
+d) Detail 🔎
+Jika punya gambar referensi, kirim via WhatsApp.</div>
+          <textarea class="form-textarea" id="bundle-skin-desc" placeholder="Isi detail skin kamu..." style="min-height:180px"></textarea>
+        </div>
+      </div>
+      <div class="price-box" style="border-color:rgba(255,215,0,0.2);background:rgba(255,215,0,0.06)">
+        💳 <strong style="color:var(--gold)">Total: Rp 330.000</strong> <span style="color:var(--accent2);font-size:0.75rem">• Hemat Rp 5.000!</span><br>
+        Setelah submit, kamu akan diarahkan ke WhatsApp kami 💬<br>
+        <span style="color:var(--accent2)">*Kirim foto referensi di WhatsApp jika ada</span>
+      </div>
+      <button class="btn-submit" onclick="submitOrder('bundle')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Lanjut ke WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const WA = '6285117606183';
+
+  function openModal(type) {
+    document.getElementById(`modal-${type}`).classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeModal(type) {
+    document.getElementById(`modal-${type}`).classList.remove('open');
+    document.body.style.overflow = '';
+    const a = document.getElementById(`alert-${type}`);
+    if (a) { a.className = 'alert'; a.textContent = ''; }
+  }
+  document.querySelectorAll('.modal-overlay').forEach(o => {
+    o.addEventListener('click', e => { if (e.target === o) closeModal(o.id.replace('modal-','')); });
+  });
+
+  function showAlert(type, msg) {
+    const el = document.getElementById(`alert-${type}`);
+    el.textContent = msg; el.className = 'alert error';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function submitOrder(type) {
+    let msg = ''; let valid = true;
+
+    if (type === 'redeem') {
+      const name  = document.getElementById('redeem-name').value.trim();
+      const phone = document.getElementById('redeem-phone').value.trim();
+      if (!name || !phone) { valid = false; }
+      else msg = `Min saya mau pesen redeem code Minecraft min 🎫\n\n*Data Pembeli:*\nNama: ${name}\nNo. Telp: ${phone}`;
+    }
+
+    else if (type === 'skin') {
+      const name    = document.getElementById('skin-name').value.trim();
+      const phone   = document.getElementById('skin-phone').value.trim();
+      const stype   = document.getElementById('skin-type').value;
+      const ssize   = document.getElementById('skin-size').value;
+      const sgender = document.getElementById('skin-gender').value;
+      const sdesc   = document.getElementById('skin-desc').value.trim();
+      if (!name || !phone || !stype || !ssize || !sgender || !sdesc) { valid = false; }
+      else msg = `Min saya mau pesen custom skin 🎨\n\n*Data Pembeli:*\nNama: ${name}\nNo. Telp: ${phone}\n\n*Request Skin:*\nTipe: ${stype}\nUkuran: ${ssize}\nGender: ${sgender}\n\n${sdesc}`;
+    }
+
+    else if (type === 'mcpe') {
+      const name  = document.getElementById('mcpe-name').value.trim();
+      const phone = document.getElementById('mcpe-phone').value.trim();
+      const gmail = document.getElementById('mcpe-gmail').value.trim();
+      if (!name || !phone || !gmail) { valid = false; }
+      else msg = `Min saya mau pesen Minecraft PE 📱\n\n*Data Pembeli:*\nNama: ${name}\nNo. Telp: ${phone}\nGmail: ${gmail}`;
+    }
+
+    else if (type === 'bundle') {
+      const name    = document.getElementById('bundle-name').value.trim();
+      const phone   = document.getElementById('bundle-phone').value.trim();
+      const stype   = document.getElementById('bundle-skin-type').value;
+      const ssize   = document.getElementById('bundle-skin-size').value;
+      const sgender = document.getElementById('bundle-skin-gender').value;
+      const sdesc   = document.getElementById('bundle-skin-desc').value.trim();
+      if (!name || !phone || !stype || !ssize || !sgender || !sdesc) { valid = false; }
+      else msg = `Min saya mau pesen bundle 💎\n\n*Data Pembeli:*\nNama: ${name}\nNo. Telp: ${phone}\n\n*Request Skin:*\nTipe: ${stype}\nUkuran: ${ssize}\nGender: ${sgender}\n\n${sdesc}`;
+    }
+
+    if (!valid) { showAlert(type, '❌ Harap isi semua field yang wajib diisi!'); return; }
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(msg)}`, '_blank');
+    closeModal(type);
+  }
+</script>
+</body>
+</html>

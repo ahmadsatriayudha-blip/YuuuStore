@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Yuu Store — Minecraft Shop</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- CURSOR -->
+<div class="cursor" id="cursor"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-logo" href="#">YUU STORE</a>
+    <div class="nav-links">
+      <a href="#products">Produk</a>
+      <a href="#cara-order">Cara Order</a>
+      <a href="#" class="nav-cta" id="navCta">Order Sekarang</a>
+    </div>
+    <button class="hamburger" id="hamburger">&#9776;</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-tag">🎮 Minecraft Store Indonesia</div>
+    <h1 class="hero-title">
+      <span class="title-line">YUU</span>
+      <span class="title-line accent">STORE</span>
+    </h1>
+    <p class="hero-sub">Redeem Code, Custom Skin & Minecraft PE — harga terjangkau, proses cepat.</p>
+    <div class="hero-btns">
+      <a href="#products" class="btn btn-primary">Lihat Produk</a>
+      <a href="#cara-order" class="btn btn-ghost">Cara Order</a>
+    </div>
+  </div>
+  <div class="hero-blocks">
+    <div class="block block-1">🎫</div>
+    <div class="block block-2">🎨</div>
+    <div class="block block-3">📱</div>
+    <div class="block block-4">💎</div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee">
+    <span>REDEEM CODE</span><span class="dot">✦</span>
+    <span>CUSTOM SKIN</span><span class="dot">✦</span>
+    <span>MINECRAFT PE</span><span class="dot">✦</span>
+    <span>BUNDLE PACK</span><span class="dot">✦</span>
+    <span>FAST PROCESS</span><span class="dot">✦</span>
+    <span>TRUSTED STORE</span><span class="dot">✦</span>
+    <span>REDEEM CODE</span><span class="dot">✦</span>
+    <span>CUSTOM SKIN</span><span class="dot">✦</span>
+    <span>MINECRAFT PE</span><span class="dot">✦</span>
+    <span>BUNDLE PACK</span><span class="dot">✦</span>
+    <span>FAST PROCESS</span><span class="dot">✦</span>
+    <span>TRUSTED STORE</span><span class="dot">✦</span>
+  </div>
+</div>
+
+<!-- PRODUCTS -->
+<section class="section" id="products">
+  <div class="section-label">// produk</div>
+  <h2 class="section-title">Pilih Produk</h2>
+
+  <div class="products-grid">
+
+    <!-- Redeem Code -->
+    <div class="card" data-product="redeem">
+      <div class="card-top">
+        <div class="card-emoji">🎫</div>
+        <div class="card-badge">POPULAR</div>
+      </div>
+      <h3 class="card-name">Redeem Code</h3>
+      <p class="card-desc">Kode resmi Minecraft untuk aktivasi game di PC/konsol.</p>
+      <ul class="card-features">
+        <li>Kode valid & resmi</li>
+        <li>Garansi aktif</li>
+        <li>Proses maks. 24 jam</li>
+      </ul>
+      <div class="card-footer">
+        <div class="card-price">Rp 310.000</div>
+        <button class="btn btn-card" onclick="openModal('redeem')">Order →</button>
+      </div>
+    </div>
+
+    <!-- Custom Skin -->
+    <div class="card" data-product="skin">
+      <div class="card-top">
+        <div class="card-emoji">🎨</div>
+      </div>
+      <h3 class="card-name">Custom Skin</h3>
+      <p class="card-desc">Skin Minecraft desain sendiri, dibuat sesuai permintaan kamu.</p>
+      <ul class="card-features">
+        <li>Desain custom</li>
+        <li>Format PNG siap pakai</li>
+        <li>Revisi 1x gratis</li>
+      </ul>
+      <div class="card-footer">
+        <div class="card-price">Rp 25.000</div>
+        <button class="btn btn-card" onclick="openModal('skin')">Order →</button>
+      </div>
+    </div>
+
+    <!-- Minecraft PE -->
+    <div class="card" data-product="mcpe">
+      <div class="card-top">
+        <div class="card-emoji">📱</div>
+        <div class="card-badge green">MURAH</div>
+      </div>
+      <h3 class="card-name">Minecraft PE</h3>
+      <p class="card-desc">Minecraft Pocket Edition original dikirim langsung ke Google Play.</p>
+      <ul class="card-features">
+        <li>Minecraft PE original</li>
+        <li>Gift via Google Play</li>
+        <li>Butuh akun Gmail</li>
+      </ul>
+      <div class="card-footer">
+        <div class="card-price">Rp 23.000</div>
+        <button class="btn btn-card green" onclick="openModal('mcpe')">Order →</button>
+      </div>
+    </div>
+
+    <!-- Bundle -->
+    <div class="card card-featured" data-product="bundle">
+      <div class="card-top">
+        <div class="card-emoji">💎</div>
+        <div class="card-badge gold">HEMAT</div>
+      </div>
+      <h3 class="card-name">Bundle Pack</h3>
+      <p class="card-desc">Redeem Code + Custom Skin dalam satu paket. Lebih hemat!</p>
+      <ul class="card-features">
+        <li>Redeem Code resmi</li>
+        <li>Custom Skin bonus</li>
+        <li>Hemat Rp 5.000</li>
+      </ul>
+      <div class="card-footer">
+        <div class="card-price gold">Rp 330.000</div>
+        <button class="btn btn-card gold" onclick="openModal('bundle')">Order →</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CARA ORDER -->
+<section class="section section-dark" id="cara-order">
+  <div class="section-label">// cara order</div>
+  <h2 class="section-title">Mudah & Cepat</h2>
+  <div class="steps-grid">
+    <div class="step">
+      <div class="step-num">01</div>
+      <h4>Pilih Produk</h4>
+      <p>Klik tombol Order di produk yang kamu mau.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <h4>Isi Form</h4>
+      <p>Lengkapi data diri dan detail pesanan.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <h4>Chat WA</h4>
+      <p>Diarahkan ke WhatsApp dengan pesan otomatis.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <h4>Terima Produk</h4>
+      <p>Produk dikirim maks. 24 jam setelah bayar.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">YUU STORE</div>
+    <p class="footer-sub">Toko Minecraft Indonesia © 2026</p>
+  </div>
+</footer>
+
+<!-- ══ MODAL REDEEM ══ -->
+<div class="modal-overlay" id="modal-redeem">
+  <div class="modal">
+    <div class="modal-header">
+      <span>🎫 Order Redeem Code</span>
+      <button class="modal-close" onclick="closeModal('redeem')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert" id="alert-redeem"></div>
+      <div class="form-group">
+        <label>Nama *</label>
+        <input type="text" id="redeem-name" placeholder="Nama kamu"/>
+      </div>
+      <div class="form-group">
+        <label>Nomor Telepon *</label>
+        <input type="tel" id="redeem-phone" placeholder="08xxxxxxxxxx"/>
+      </div>
+      <div class="price-info">
+        💳 Total: <strong>Rp 310.000</strong> — via WhatsApp
+      </div>
+      <button class="btn btn-wa" onclick="submitOrder('redeem')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Lanjut ke WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL SKIN ══ -->
+<div class="modal-overlay" id="modal-skin">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span>🎨 Order Custom Skin</span>
+      <button class="modal-close" onclick="closeModal('skin')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert" id="alert-skin"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nama *</label>
+          <input type="text" id="skin-name" placeholder="Nama kamu"/>
+        </div>
+        <div class="form-group">
+          <label>Nomor Telepon *</label>
+          <input type="tel" id="skin-phone" placeholder="08xxxxxxxxxx"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipe Skin *</label>
+          <select id="skin-type">
+            <option value="">Pilih tipe...</option>
+            <option>Steve (Lengan lebar)</option>
+            <option>Alex (Lengan ramping)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ukuran *</label>
+          <select id="skin-size">
+            <option value="">Pilih ukuran...</option>
+            <option>32x32</option>
+            <option>64x64</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Gender *</label>
+          <select id="skin-gender">
+            <option value="">Pilih gender...</option>
+            <option>Laki-Laki</option>
+            <option>Perempuan</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Deskripsi Detail Skin *</label>
+        <div class="template-box">a) Kepala 🧔🏼
+1. Rambut — Warna: / Penjelasan:
+2. Mata — Warna: / Penjelasan:
+
+b) Badan 💪
+1. Kulit — Warna: / Penjelasan:
+
+c) Pakaian 🧥
+1. Baju — Warna: / Ukuran: panjang/pendek / Penjelasan:
+2. Celana — Warna: / Ukuran: panjang/pendek
+3. Sepatu — Warna: / Penjelasan:
+
+d) Detail — Gambar referensi kirim via WA</div>
+        <textarea id="skin-desc" placeholder="Isi detail skin kamu..."></textarea>
+      </div>
+      <div class="price-info">
+        💳 Total: <strong>Rp 25.000</strong> — Kirim foto referensi di WA
+      </div>
+      <button class="btn btn-wa" onclick="submitOrder('skin')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Lanjut ke WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL MCPE ══ -->
+<div class="modal-overlay" id="modal-mcpe">
+  <div class="modal">
+    <div class="modal-header">
+      <span>📱 Order Minecraft PE</span>
+      <button class="modal-close" onclick="closeModal('mcpe')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert" id="alert-mcpe"></div>
+      <div class="form-group">
+        <label>Nama *</label>
+        <input type="text" id="mcpe-name" placeholder="Nama kamu"/>
+      </div>
+      <div class="form-group">
+        <label>Nomor Telepon *</label>
+        <input type="tel" id="mcpe-phone" placeholder="08xxxxxxxxxx"/>
+      </div>
+      <div class="form-group">
+        <label>Akun Gmail *</label>
+        <input type="email" id="mcpe-gmail" placeholder="emailkamu@gmail.com"/>
+      </div>
+      <div class="price-info green">
+        💳 Total: <strong>Rp 23.000</strong> — Gift via Google Play
+      </div>
+      <button class="btn btn-wa" onclick="submitOrder('mcpe')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Lanjut ke WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══ MODAL BUNDLE ══ -->
+<div class="modal-overlay" id="modal-bundle">
+  <div class="modal modal-lg">
+    <div class="modal-header">
+      <span>💎 Order Bundle Pack</span>
+      <button class="modal-close" onclick="closeModal('bundle')">×</button>
+    </div>
+    <div class="modal-body">
+      <div class="alert" id="alert-bundle"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nama *</label>
+          <input type="text" id="bundle-name" placeholder="Nama kamu"/>
+        </div>
+        <div class="form-group">
+          <label>Nomor Telepon *</label>
+          <input type="tel" id="bundle-phone" placeholder="08xxxxxxxxxx"/>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tipe Skin *</label>
+          <select id="bundle-skin-type">
+            <option value="">Pilih tipe...</option>
+            <option>Steve (Lengan lebar)</option>
+            <option>Alex (Lengan ramping)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Ukuran *</label>
+          <select id="bundle-skin-size">
+            <option value="">Pilih ukuran...</option>
+            <option>32x32</option>
+            <option>64x64</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Gender *</label>
+          <select id="bundle-skin-gender">
+            <option value="">Pilih gender...</option>
+            <option>Laki-Laki</option>
+            <option>Perempuan</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Deskripsi Detail Skin *</label>
+        <div class="template-box">a) Kepala 🧔🏼
+1. Rambut — Warna: / Penjelasan:
+2. Mata — Warna: / Penjelasan:
+
+b) Badan 💪
+1. Kulit — Warna: / Penjelasan:
+
+c) Pakaian 🧥
+1. Baju — Warna: / Ukuran: panjang/pendek / Penjelasan:
+2. Celana — Warna: / Ukuran: panjang/pendek
+3. Sepatu — Warna: / Penjelasan:
+
+d) Detail — Gambar referensi kirim via WA</div>
+        <textarea id="bundle-skin-desc" placeholder="Isi detail skin kamu..."></textarea>
+      </div>
+      <div class="price-info gold">
+        💳 Total: <strong>Rp 330.000</strong> — Hemat Rp 5.000! Kirim foto referensi di WA
+      </div>
+      <button class="btn btn-wa" onclick="submitOrder('bundle')">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+        Lanjut ke WhatsApp
+      </button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
